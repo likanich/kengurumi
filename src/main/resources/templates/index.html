@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="h-100" lang="ru" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Кенгуруми</title>
+		<!-- Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+		<link th:href="@{/css/main.css}" rel="stylesheet" />
+		<link th:href="@{/css/sidebars.css}" rel="stylesheet" />
+	</head>
+	<body class="">
+
+	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+		<symbol id="bi-plus-square" viewBox="0 0 16 16">
+			<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+			<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+		</symbol>
+		<symbol id="bi-dash-square" viewBox="0 0 16 16">
+			<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+			<path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+		</symbol>
+		<symbol id="bi-list" viewBox="0 0 16 16">
+			<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+		</symbol>
+	</svg>
+
+		<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+			<nav class="navbar navbar-light">
+				<div class="container-fluid">
+					<a class="navbar-brand py-0" href="#">
+						<img th:src="@{/images/logo_kangaroo.png}" alt="" height="45" class="d-inline-block align-middle">
+						<img th:src="@{/images/text_kangaroo.png}" alt="" height="45" class="d-inline-block align-middle">
+					</a>
+
+					<ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+						<li>
+							<a href="#" class="nav-link addCircle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Еще кружок">
+								<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#bi-plus-square"></use></svg>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="nav-link removeCircle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Минус кружок">
+								<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#bi-dash-square"></use></svg>
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#bi-list"></use></svg>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+								<li><a class="dropdown-item" href="#">Вход</a></li>
+								<li><a class="dropdown-item" href="#">Помощь</a></li>
+								<li><a class="dropdown-item" href="#">О кенгуруми</a></li>
+							</ul>
+						</li>
+					</ul>
+
+
+				</div>
+			</nav>
+			<main class="cover-container d-flex py-0 scrollarea overflow-hidden">
+				<div class="d-flex flex-column align-items-stretch bg-white scrollarea overflow-auto">
+				<ul class="list-group list-group-flush border-bottom ">
+					<li class="list-group-item list-group-item-action py-3 lh-tight active crochet" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Котик">
+						<img width="40" height="40" th:src="@{/images/cat_head.png}">
+					</li>
+					<li class="list-group-item list-group-item-action py-3 lh-tight crochet" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Столбик без накида">
+						<img height="40" th:src="@{/images/single_crochet.svg}">
+					</li>
+					<li class="list-group-item list-group-item-action py-3 lh-tight crochet" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Столбик с накидом">
+						<img height="40" th:src="@{/images/double_crochet.svg}">
+					</li>
+					<li class="list-group-item list-group-item-action py-3 lh-tight crochet" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Полустолбик с накидом">
+						<img height="40" th:src="@{/images/half_double_crochet.svg}">
+					</li>
+				</ul>
+				</div>
+				<div class="align-self-stretch flex-fill canvas-area">
+					<canvas id="canvas-main"></canvas>
+				</div>
+			</main>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+		<script th:src="@{/js/drawCanvas.js}"></script>
+		<script th:src="@{/js/sidebars.js}"></script>
+	</body>
+</html>

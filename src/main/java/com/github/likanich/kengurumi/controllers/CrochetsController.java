@@ -2,11 +2,8 @@ package com.github.likanich.kengurumi.controllers;
 
 import com.github.likanich.kengurumi.models.Crochet;
 import com.github.likanich.kengurumi.repositories.CrochetRepository;
-import com.github.likanich.kengurumi.utils.FileUploadUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,8 +13,11 @@ import java.io.IOException;
 @RequestMapping("/crochets")
 public class CrochetsController {
 
-    @Autowired
-    private CrochetRepository crochetRepository;
+    private final CrochetRepository crochetRepository;
+
+    public CrochetsController(CrochetRepository crochetRepository) {
+        this.crochetRepository = crochetRepository;
+    }
 
     @GetMapping()
     public String index(Model model) {
@@ -32,9 +32,8 @@ public class CrochetsController {
 
     @PostMapping()
     public String saveCrochet(@ModelAttribute("crochet") Crochet crochet, @RequestParam("image") MultipartFile multipartFile) {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
-        byte[] image = new byte[0];
+        byte[] image;
         try {
             image = multipartFile.getBytes();
             crochet.setImageFile(image);

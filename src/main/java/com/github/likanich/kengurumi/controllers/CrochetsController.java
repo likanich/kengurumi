@@ -2,6 +2,8 @@ package com.github.likanich.kengurumi.controllers;
 
 import com.github.likanich.kengurumi.models.Crochet;
 import com.github.likanich.kengurumi.repositories.CrochetRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.io.IOException;
 @RequestMapping("/crochets")
 public class CrochetsController {
 
+    private static final Logger logger = LogManager.getLogger(CrochetsController.class);
     private final CrochetRepository crochetRepository;
 
     public CrochetsController(CrochetRepository crochetRepository) {
@@ -39,8 +42,10 @@ public class CrochetsController {
             crochet.setImageFile(image);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.warn("Image non saved", e);
         }
         crochetRepository.save(crochet);
+        logger.info("Saved crochet {} to database", crochet.getName());
 
         return "redirect:/crochets";
     }

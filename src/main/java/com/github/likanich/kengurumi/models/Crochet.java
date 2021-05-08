@@ -60,13 +60,6 @@ public class Crochet {
         return id;
     }
 
-    @Transient
-    public String getImagePath() {
-        if (imageFile == null) return null;
-
-        return "/images/crochets/" + imageFile;
-    }
-
     public String getImgData() {
         return Base64.getMimeEncoder().encodeToString(imageFile);
     }

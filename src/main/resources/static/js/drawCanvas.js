@@ -135,7 +135,7 @@ addCircleButton.addEventListener(`click`, () => {
 			hasBorder: true,
 			stroke: 'green',
 			strokeWidth: 1,
-			opacity: 0.1,
+			opacity: 0.4,
 			originX: 'center',
 			originY: 'center',
 			objectCaching: false,
@@ -145,9 +145,9 @@ addCircleButton.addEventListener(`click`, () => {
 			left: radius + 6,
 			top: -11,
 			fontSize: 10,
-			stroke: 'burgundy',
+			stroke: 'darkmagenta',
 			strokeWidth: 1,
-			opacity: 0.1,
+			opacity: 0.4,
 		}));
 		radius += step;
 		canvas.renderAll();
@@ -190,7 +190,7 @@ function initialize() {
 		top: canvas.getHeight() / 2,
 		stroke: 'brown',
 		strokeWidth: 1,
-		opacity: 0.1,
+		opacity: 0.4,
 		strokeDashArray: [5, 5],
 		selectable: false,
 		hoverCursor: 'default',
@@ -201,7 +201,7 @@ function initialize() {
 		top: 0,
 		stroke: 'brown',
 		strokeWidth: 1,
-		opacity: 0.1,
+		opacity: 0.4,
 		strokeDashArray: [5, 5],
 		selectable: false,
 		hoverCursor: 'default',
@@ -213,7 +213,7 @@ function initialize() {
 		hasBorder: true,
 		stroke: 'green',
 		strokeWidth: 1,
-		opacity: 0.1,
+		opacity: 0.4,
 		originX: 'center',
 		originY: 'center'
 	}));

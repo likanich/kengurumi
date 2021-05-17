@@ -1,4 +1,3 @@
-
 let canvasDiv = document.querySelector('.canvas-area')
 let canvas = new fabric.Canvas('canvas-main');
 let addedEnabled = true;
@@ -66,9 +65,21 @@ canvas.on('mouse:up', function(opt) {
 		canvas.add(scrInstance);
 		canvas.renderAll();
 	}
-	this.setViewportTransform(this.viewportTransform);
-	this.isDragging = false;
-	this.selection = true;
+	else {
+		this.setViewportTransform(this.viewportTransform);
+		this.isDragging = false;
+		this.selection = true;
+	}
+});
+
+canvas.on('mouse:over', function(e) {
+	if (addedEnabled) {
+		e.target.selectable = false;
+	}
+	else {
+		e.target.selectable = true;
+	}
+	canvas.renderAll();
 });
 
 canvas.on('object:moving', function(options) {
@@ -82,6 +93,7 @@ canvas.on('object:moving', function(options) {
 const step = 25;
 const addCircleButton = document.querySelector(`.addCircle`);
 const removeCircleButton = document.querySelector(`.removeCircle`);
+const downloadPdfButton = document.querySelector(`.download-pdf`);
 let radius = step;
 let circleGroup = new fabric.Group([], {
 	width: 5000,
@@ -151,12 +163,28 @@ removeCircleButton.addEventListener(`click`, () => {
 	canvas.renderAll();
 });
 
+downloadPdfButton.addEventListener(`click`, () => {
+	let imgData = canvas.toDataURL("image/png");
+	downloadImage(imgData, 'canvas.png');
+});
+
+// Save | Download image
+function downloadImage(data, filename = 'untitled.png') {
+	let a = document.createElement('a');
+	a.href = data;
+	a.download = filename;
+	document.body.appendChild(a);
+	a.click();
+}
+
 function resizeCanvas() {
 	canvas.setWidth(canvasDiv.clientWidth);
 	canvas.setHeight(canvasDiv.clientHeight);
 };
 
 function initialize() {
+	canvas.backgroundColor="aliceblue";
+
 	canvas.add(new fabric.Line([0, 0, canvas.getWidth(), 0], {
 		left: 0,
 		top: canvas.getHeight() / 2,
@@ -199,13 +227,15 @@ function initialize() {
 
 initialize();
 
-let imgElement = document.getElementById('my-image');
-let imgInstance = new fabric.Image(imgElement, {
-	left: 100,
-	top: 100,
-	opacity: 0.85,
-	originX: 'center',
-	originY: 'center',
-});
-canvas.add(imgInstance);
-
+function adding() {
+	let chbox;
+	chbox=document.getElementById('adding');
+	if (chbox.checked) {
+		addedEnabled = true;
+		canvas.hoverCursor = 'auto';
+	}
+	else {
+		addedEnabled = false;
+		canvas.hoverCursor = 'move';
+	}
+}

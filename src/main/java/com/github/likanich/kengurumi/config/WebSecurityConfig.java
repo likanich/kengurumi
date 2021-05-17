@@ -37,8 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // Access for all users
                     .antMatchers("/").permitAll()
 
-                // All another pages need authorization
-                .anyRequest().authenticated()
                 .and()
                     // Login
                     .formLogin()

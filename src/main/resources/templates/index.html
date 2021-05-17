@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html class="h-100" lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
 		<meta charset="UTF-8">
 		<title>Кенгуруми</title>
 		<!-- Bootstrap CSS -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-		<link th:href="@{/css/main.css}" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+		<link rel="stylesheet" th:href="@{/css/main.css}"/>
 		<link th:href="@{/css/sidebars.css}" rel="stylesheet" />
 	</head>
 	<body class="">
@@ -31,7 +31,7 @@
 						<img th:src="@{/images/logo_kangaroo.png}" alt="" height="45" class="d-inline-block align-middle">
 						<img th:src="@{/images/text_kangaroo.png}" alt="" height="45" class="d-inline-block align-middle">
 					</a>
-
+					<label><input type="checkbox" id="adding" onchange="adding()">Добавление элементов</label>
 					<ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
 						<li>
 							<a href="#" class="nav-link addCircle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Еще кружок">
@@ -43,20 +43,27 @@
 								<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#bi-dash-square"></use></svg>
 							</a>
 						</li>
+						<li>
+							<a href="/login" class="nav-link download-pdf">Скачать PDF</a>
+						</li>
+						<li sec:authorize="isAnonymous()">
+							<a href="/login" class="nav-link">Вход</a>
+						</li>
+						<li sec:authorize="isAuthenticated()">
+							<div class="nav-link" sec:authentication="name"></div>
+						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#bi-list"></use></svg>
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-								<li><a class="dropdown-item" href="/crochets">Петли</a></li>
-								<li><a class="dropdown-item" href="/login">Вход</a></li>
+								<li><a class="dropdown-item" href="/crochets" sec:authorize="hasRole('ROLE_ADMIN')">Петли</a></li>
 								<li><a class="dropdown-item" href="#">Помощь</a></li>
 								<li><a class="dropdown-item" href="#">О кенгуруми</a></li>
+								<li><a class="dropdown-item" href="/logout" sec:authorize="isAuthenticated()">Выход</a></li>
 							</ul>
 						</li>
 					</ul>
-
-
 				</div>
 			</nav>
 			<main class="cover-container d-flex py-0 scrollarea overflow-hidden">
@@ -73,7 +80,8 @@
 			</main>
 		</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 		<script th:src="@{/js/drawCanvas.js}"></script>
 		<script th:src="@{/js/sidebars.js}"></script>
 	</body>

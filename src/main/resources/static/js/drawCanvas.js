@@ -133,7 +133,7 @@ addCircleButton.addEventListener(`click`, () => {
 			fill: 'transparent',
 			radius: radius,
 			hasBorder: true,
-			stroke: 'darkblue',
+			stroke: 'green',
 			strokeWidth: 1,
 			opacity: 0.1,
 			originX: 'center',
@@ -145,7 +145,7 @@ addCircleButton.addEventListener(`click`, () => {
 			left: radius + 6,
 			top: -11,
 			fontSize: 10,
-			stroke: 'darkblue',
+			stroke: 'burgundy',
 			strokeWidth: 1,
 			opacity: 0.1,
 		}));
@@ -183,12 +183,12 @@ function resizeCanvas() {
 };
 
 function initialize() {
-	canvas.backgroundColor="aliceblue";
+	canvas.backgroundColor="white";
 
 	canvas.add(new fabric.Line([0, 0, canvas.getWidth(), 0], {
 		left: 0,
 		top: canvas.getHeight() / 2,
-		stroke: 'blue',
+		stroke: 'brown',
 		strokeWidth: 1,
 		opacity: 0.1,
 		strokeDashArray: [5, 5],
@@ -199,7 +199,7 @@ function initialize() {
 	canvas.add(new fabric.Line([0, 0, 0, canvas.getHeight()], {
 		left: canvas.getWidth() / 2,
 		top: 0,
-		stroke: 'blue',
+		stroke: 'brown',
 		strokeWidth: 1,
 		opacity: 0.1,
 		strokeDashArray: [5, 5],
@@ -211,7 +211,7 @@ function initialize() {
 		fill:'transparent',
 		radius: 1,
 		hasBorder: true,
-		stroke: 'darkblue',
+		stroke: 'green',
 		strokeWidth: 1,
 		opacity: 0.1,
 		originX: 'center',

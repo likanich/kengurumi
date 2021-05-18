@@ -42,7 +42,6 @@ canvas.on('mouse:up', function(opt) {
 		let pointer = canvas.getPointer(opt.e, false);
 		let insertElement = document.querySelector('.active img');
 		let scrInstance = new fabric.Image(insertElement, {
-			height: 20,
 			left: pointer.x,
 			top: pointer.y,
 			opacity: 0.85,
@@ -61,7 +60,7 @@ canvas.on('mouse:up', function(opt) {
 			// tr: false,
 			//mtr: false,
 		});
-		scrInstance.lockScalingX = scrInstance.lockScalingY = true;
+		//scrInstance.lockScalingX = scrInstance.lockScalingY = true;
 		scrInstance.rotate(Math.atan2(scrInstance.top - canvas.getHeight()/2, scrInstance.left - canvas.getWidth()/2) * 180 / Math.PI + 90);
 		canvas.add(scrInstance);
 		canvas.renderAll();

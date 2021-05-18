@@ -42,6 +42,7 @@ canvas.on('mouse:up', function(opt) {
 		let pointer = canvas.getPointer(opt.e, false);
 		let insertElement = document.querySelector('.active img');
 		let scrInstance = new fabric.Image(insertElement, {
+			height: 20,
 			left: pointer.x,
 			top: pointer.y,
 			opacity: 0.85,
@@ -50,14 +51,14 @@ canvas.on('mouse:up', function(opt) {
 			centeredRotation: false,
 		});
 		scrInstance.setControlsVisibility({
-			mt: false,
-			mb: false,
-			ml: false,
-			mr: false,
-			bl: false,
-			br: false,
-			tl: false,
-			tr: false,
+			// mt: false,
+			// mb: false,
+			// ml: false,
+			// mr: false,
+			// bl: false,
+			// br: false,
+			// tl: false,
+			// tr: false,
 			//mtr: false,
 		});
 		scrInstance.lockScalingX = scrInstance.lockScalingY = true;

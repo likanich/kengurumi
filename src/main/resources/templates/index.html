@@ -25,14 +25,20 @@
 	</svg>
 
 		<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
-			<nav class="navbar navbar-light">
+			<nav class="navbar navbar-light bg-light border-bottom">
 				<div class="container-fluid">
 					<a class="navbar-brand py-0" href="#">
 						<img th:src="@{/images/logo_kangaroo.png}" alt="" height="45" class="d-inline-block align-middle">
 						<img th:src="@{/images/text_kangaroo.png}" alt="" height="45" class="d-inline-block align-middle">
 					</a>
-					<label><input type="checkbox" id="adding" onchange="adding()">Добавление элементов</label>
+
 					<ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+						<li>
+							<input class="form-check-input" type="checkbox" value="" id="adding" checked onchange="adding()">
+							<label class="form-check-label" for="adding">
+								Добавление элементов
+							</label>
+						</li>
 						<li>
 							<a href="#" class="nav-link addCircle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Еще кружок">
 								<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#bi-plus-square"></use></svg>
@@ -44,7 +50,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="/login" class="nav-link download-pdf">Скачать PDF</a>
+							<a href="/login" class="nav-link download-pdf">Скачать PNG</a>
 						</li>
 						<li sec:authorize="isAnonymous()">
 							<a href="/login" class="nav-link">Вход</a>
@@ -67,9 +73,9 @@
 				</div>
 			</nav>
 			<main class="cover-container d-flex py-0 scrollarea overflow-hidden">
-				<div class="d-flex flex-column align-items-stretch bg-white scrollarea overflow-auto">
-				<ul class="list-group list-group-flush border-bottom ">
-					<li class="list-group-item list-group-item-action py-3 lh-tight crochet" th:each="crochet, i : ${crochets}" th:classappend="${i.index == 0 ? 'active' : ''}">
+				<div class="d-flex flex-column align-items-stretch bg-light border-end scrollarea overflow-auto">
+				<ul class="list-group list-group-flush ">
+					<li class="list-group-item list-group-item-action px-2 py-2 lh-tight crochet" th:each="crochet, i : ${crochets}" th:classappend="${i.index == 0 ? 'active' : ''}">
 						<img width="40" height="40" th:src="'data:image/svg+xml;base64,' + ${crochet.getImgData()}" data-bs-toggle="tooltip" data-bs-placement="right" th:attr="data-bs-original-title=${crochet.getName()}">
 					</li>
 				</ul>

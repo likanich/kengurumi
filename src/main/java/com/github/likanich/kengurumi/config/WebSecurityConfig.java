@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/registration").not().fullyAuthenticated()
 
                     // Access only for Admin users
-                    .antMatchers("/crochets/**").hasRole("USER")
+                    .antMatchers("/crochets/**").permitAll()  //.hasRole("USER")
 
                     // Access for all users
                     .antMatchers("/").permitAll()

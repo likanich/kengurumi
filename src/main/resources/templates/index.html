@@ -34,6 +34,11 @@
 
 					<ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
 						<li>
+							<input id="color-selector" data-jscolor="{smartPosition:false,
+	palette:'#000 #fff #808080 #000 #996e36 #f55525 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4',
+	paletteCols:11, closeButton:true, closeText:'Закрыть'}" value="#3399FF">
+						</li>
+						<li>
 							<input class="form-check-input" type="checkbox" value="" id="adding" checked onchange="adding()">
 							<label class="form-check-label" for="adding">
 								Добавление элементов
@@ -90,5 +95,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 		<script th:src="@{/js/drawCanvas.js}"></script>
 		<script th:src="@{/js/sidebars.js}"></script>
+		<script th:src="@{/js/jscolor.js}"></script>
 	</body>
 </html>

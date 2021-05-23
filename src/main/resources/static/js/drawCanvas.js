@@ -1,4 +1,5 @@
 let canvasDiv = document.querySelector('.canvas-area')
+let colorInput = document.getElementById('color-selector')
 let canvas = new fabric.Canvas('canvas-main');
 let addedEnabled = true;
 const minZoom = 0.4;
@@ -16,7 +17,7 @@ canvas.on('mouse:wheel', function(opt) {
 	opt.e.stopPropagation();
 });
 canvas.on('mouse:down', function(opt) {
-	var evt = opt.e;
+	let evt = opt.e;
 	if (evt.shiftKey === true) {
 		this.isDragging = true;
 		this.selection = false;
@@ -26,8 +27,8 @@ canvas.on('mouse:down', function(opt) {
 });
 canvas.on('mouse:move', function(opt) {
 	if (this.isDragging) {
-		var e = opt.e;
-		var vpt = this.viewportTransform;
+		let e = opt.e;
+		let vpt = this.viewportTransform;
 		vpt[4] += e.clientX - this.lastPosX;
 		vpt[5] += e.clientY - this.lastPosY;
 		this.requestRenderAll();
@@ -38,38 +39,52 @@ canvas.on('mouse:move', function(opt) {
 canvas.on('mouse:up', function(opt) {
 	// on mouse up we want to recalculate new interaction
 	// for all objects, so we call setViewportTransform
-	if (addedEnabled) {
+	if (addedEnabled && !this.isDragging) {
 		let pointer = canvas.getPointer(opt.e, false);
-		let insertElement = document.querySelector('.active img');
-		let scrInstance = new fabric.Image(insertElement, {
-			left: pointer.x,
-			top: pointer.y,
-			opacity: 0.85,
-			originX: "center",
-			originY: "bottom",
-			centeredRotation: false,
+		let insertElement = document.querySelector('.active img').src;
+		var xhr = new XMLHttpRequest();
+		let svg;
+		xhr.open('GET', insertElement);
+		xhr.addEventListener('load', function(ev)
+		{
+			var xml = ev.target.response;
+			var dom = new DOMParser();
+			svg = dom.parseFromString(xml, 'image/svg+xml');
+
+
+			var serializer = new XMLSerializer();
+			svg.rootElement.style.stroke="blue";
+			var paths = svg.getElementsByTagName("path");
+			for (let element of paths) {
+				element.setAttribute('stroke',colorInput.value);
+			}
+			var svgStr = serializer.serializeToString(svg.rootElement);
+			console.log(paths);
+			var path = fabric.loadSVGFromString(svgStr,function(objects, options) {
+				var obj = fabric.util.groupSVGElements(objects, options);
+				obj.set({
+						left: pointer.x,
+						top: pointer.y,
+						opacity: 0.85,
+						originX: "center",
+						originY: "bottom",
+						centeredRotation: false,
+						stroke: "red",
+					})
+					.setCoords();
+				obj.scaleToHeight(20, true);
+				obj.rotate(Math.atan2(obj.top - canvas.getHeight()/2, obj.left - canvas.getWidth()/2) * 180 / Math.PI + 90);
+				canvas.add(obj).renderAll();
+			});
 		});
-		scrInstance.setControlsVisibility({
-			// mt: false,
-			// mb: false,
-			// ml: false,
-			// mr: false,
-			// bl: false,
-			// br: false,
-			// tl: false,
-			// tr: false,
-			//mtr: false,
-		});
-		//scrInstance.lockScalingX = scrInstance.lockScalingY = true;
-		scrInstance.rotate(Math.atan2(scrInstance.top - canvas.getHeight()/2, scrInstance.left - canvas.getWidth()/2) * 180 / Math.PI + 90);
-		canvas.add(scrInstance);
+		xhr.send(null);
 		canvas.renderAll();
 	}
 	else {
 		this.setViewportTransform(this.viewportTransform);
-		this.isDragging = false;
 		this.selection = true;
 	}
+	this.isDragging = false;
 });
 
 canvas.on('mouse:over', function(e) {
@@ -104,15 +119,11 @@ let circleGroup = new fabric.Group([], {
 	noScaleCache: false,
 	statefullCache: true,
 });
-let circleNumberGroup = new fabric.Group([], {
-	width: 5000,
-	height: 5000,
-	selectable: false,
-	hoverCursor: 'default',
-	objectCaching: false,
-	noScaleCache: false,
-	statefullCache: true,
-});
+circleGroup.selectable = false;
+circleGroup.lockScalingX = circleGroup.lockScalingY = true;
+circleGroup.lockMovementX = circleGroup.lockMovementY = true;
+circleGroup.lockRotation = true;
+
 window.onresize = resizeCanvas;
 
 let crochets = document.querySelectorAll('.crochet');
@@ -129,7 +140,7 @@ for( let i = 0; i < crochets.length; i++ ){
 
 addCircleButton.addEventListener(`click`, () => {
 	if (radius / step <= 100) {
-		circleGroup.add(new fabric.Circle({
+		let circle = new fabric.Circle({
 			fill: 'transparent',
 			radius: radius,
 			hasBorder: true,
@@ -140,15 +151,24 @@ addCircleButton.addEventListener(`click`, () => {
 			originY: 'center',
 			objectCaching: false,
 			noScaleCache: false,
-		}));
-		circleNumberGroup.add(new fabric.Text('' + (radius / step), {
+		});
+		circle.selectable = false;
+		circle.lockScalingX = circle.lockScalingY = true;
+		circle.lockMovementX = circle.lockMovementY = true;
+		circleGroup.add(circle);
+		let number = new fabric.Text('' + (radius / step), {
 			left: radius + 6,
 			top: -11,
 			fontSize: 10,
 			stroke: 'darkmagenta',
 			strokeWidth: 1,
 			opacity: 0.4,
-		}));
+		});
+		number.selectable = false;
+		number.lockScalingX = number.lockScalingY = true;
+		number.lockMovementX = number.lockMovementY = true;
+		number.lockRotation = true;
+		circleGroup.add(number);
 		radius += step;
 		canvas.renderAll();
 	}
@@ -157,7 +177,7 @@ addCircleButton.addEventListener(`click`, () => {
 removeCircleButton.addEventListener(`click`, () => {
 	if (circleGroup.size() > 1) {
 		circleGroup.remove(circleGroup.getObjects()[circleGroup.size() - 1]);
-		circleNumberGroup.remove(circleNumberGroup.getObjects()[circleNumberGroup.size() - 1]);
+		circleGroup.remove(circleGroup.getObjects()[circleGroup.size() - 1]);
 		radius -= step;
 	}
 	canvas.renderAll();
@@ -184,45 +204,34 @@ function resizeCanvas() {
 
 function initialize() {
 	canvas.backgroundColor="white";
+	canvas.hoverCursor = 'default';
 
-	canvas.add(new fabric.Line([0, 0, canvas.getWidth(), 0], {
-		left: 0,
-		top: canvas.getHeight() / 2,
+	let lineX = new fabric.Line([0, 0, 5005, 0], {
 		stroke: 'brown',
 		strokeWidth: 1,
 		opacity: 0.4,
 		strokeDashArray: [5, 5],
 		selectable: false,
 		hoverCursor: 'default',
-	}));
+		objectCaching: false,
+	});
 
-	canvas.add(new fabric.Line([0, 0, 0, canvas.getHeight()], {
-		left: canvas.getWidth() / 2,
-		top: 0,
+	let lineY = new fabric.Line([0, 0, 0, 5005], {
 		stroke: 'brown',
 		strokeWidth: 1,
 		opacity: 0.4,
 		strokeDashArray: [5, 5],
 		selectable: false,
 		hoverCursor: 'default',
-	}));
-
-	circleGroup.add(new fabric.Circle({
-		fill:'transparent',
-		radius: 1,
-		hasBorder: true,
-		stroke: 'green',
-		strokeWidth: 1,
-		opacity: 0.4,
-		originX: 'center',
-		originY: 'center'
-	}));
-
+		objectCaching: false,
+	});
+	canvas.add(lineX);
+	lineX.center();
+	canvas.add(lineY);
+	lineY.center();
 	// add to center canvas group of circles to count
 	canvas.add(circleGroup);
-	canvas.add(circleNumberGroup);
 	circleGroup.center();
-	circleNumberGroup.center();
 };
 
 initialize();
@@ -232,7 +241,7 @@ function adding() {
 	chbox=document.getElementById('adding');
 	if (chbox.checked) {
 		addedEnabled = true;
-		canvas.hoverCursor = 'auto';
+		canvas.hoverCursor = 'default';
 	}
 	else {
 		addedEnabled = false;

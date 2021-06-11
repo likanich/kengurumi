@@ -37,6 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // Access for all users
                     .antMatchers("/").permitAll()
 
+                .antMatchers( "/favicon.ico").permitAll()
+
                 .and()
                     // Login
                     .formLogin()

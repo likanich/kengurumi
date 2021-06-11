@@ -6,6 +6,16 @@ const minZoom = 0.4;
 const maxZoom = 10;
 resizeCanvas();
 
+document.addEventListener('keydown', function (e) {
+	console.log(e);
+	if (e.key === "Delete") {
+		if(canvas.getActiveObject()) {
+			canvas.remove(canvas.getActiveObject());
+			canvas.renderAll();
+		}
+	}
+}, false);
+
 canvas.on('mouse:wheel', function(opt) {
 	let delta = opt.e.deltaY;
 	let zoom = canvas.getZoom();
@@ -42,30 +52,27 @@ canvas.on('mouse:up', function(opt) {
 	if (addedEnabled && !this.isDragging) {
 		let pointer = canvas.getPointer(opt.e, false);
 		let insertElement = document.querySelector('.active img').src;
-		var xhr = new XMLHttpRequest();
+		let xhr = new XMLHttpRequest();
 		let svg;
 		xhr.open('GET', insertElement);
 		xhr.addEventListener('load', function(ev)
 		{
-			var xml = ev.target.response;
-			var dom = new DOMParser();
+			let xml = ev.target.response;
+			let dom = new DOMParser();
 			svg = dom.parseFromString(xml, 'image/svg+xml');
 
-
-			var serializer = new XMLSerializer();
+			let serializer = new XMLSerializer();
 			svg.rootElement.style.stroke="blue";
-			var paths = svg.getElementsByTagName("path");
+			let paths = svg.getElementsByTagName("path");
 			for (let element of paths) {
 				element.setAttribute('stroke',colorInput.value);
 			}
-			var svgStr = serializer.serializeToString(svg.rootElement);
-			console.log(paths);
-			var path = fabric.loadSVGFromString(svgStr,function(objects, options) {
-				var obj = fabric.util.groupSVGElements(objects, options);
+			let svgStr = serializer.serializeToString(svg.rootElement);
+			fabric.loadSVGFromString(svgStr,function(objects, options) {
+				let obj = fabric.util.groupSVGElements(objects, options);
 				obj.set({
 						left: pointer.x,
 						top: pointer.y,
-						opacity: 0.85,
 						originX: "center",
 						originY: "bottom",
 						centeredRotation: false,
@@ -73,7 +80,7 @@ canvas.on('mouse:up', function(opt) {
 					})
 					.setCoords();
 				obj.scaleToHeight(20, true);
-				obj.rotate(Math.atan2(obj.top - canvas.getHeight()/2, obj.left - canvas.getWidth()/2) * 180 / Math.PI + 90);
+				obj.rotate(Math.atan2(obj.top - canvas.getCenter().top, obj.left - canvas.getCenter().left) * 180 / Math.PI + 90);
 				canvas.add(obj).renderAll();
 			});
 		});
@@ -88,12 +95,7 @@ canvas.on('mouse:up', function(opt) {
 });
 
 canvas.on('mouse:over', function(e) {
-	if (addedEnabled) {
-		e.target.selectable = false;
-	}
-	else {
-		e.target.selectable = true;
-	}
+	e.target.selectable = !addedEnabled;
 	canvas.renderAll();
 });
 
@@ -200,7 +202,8 @@ function downloadImage(data, filename = 'untitled.png') {
 function resizeCanvas() {
 	canvas.setWidth(canvasDiv.clientWidth);
 	canvas.setHeight(canvasDiv.clientHeight);
-};
+	canvas.calcOffset();
+}
 
 function initialize() {
 	canvas.backgroundColor="white";
@@ -232,14 +235,14 @@ function initialize() {
 	// add to center canvas group of circles to count
 	canvas.add(circleGroup);
 	circleGroup.center();
-};
+}
 
 initialize();
 
 function adding() {
-	let chbox;
-	chbox=document.getElementById('adding');
-	if (chbox.checked) {
+	let checkBox;
+	checkBox=document.getElementById('adding');
+	if (checkBox.checked) {
 		addedEnabled = true;
 		canvas.hoverCursor = 'default';
 	}
